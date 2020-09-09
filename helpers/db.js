@@ -23,6 +23,29 @@ export const init = () => {
         }
       );
     });
+    //BE CAREFUL: no error callback and no success callback params used for db.transaction
+    //BUT for tx.executeSql, success callback and err calLback params are used
+  });
+  return promise;
+};
+
+export const insertPlace = (title, imageUri, address, lat, lng) => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `INSERT INTO places (title, imageUri, address, lat, lng)
+          VALUES(?, ?, ?, ?, ?);`,
+        [title, imageUri, address, lat, lng],
+        (_, result) => {
+          resolve(result);
+        },
+        (_, err) => {
+          reject(err);
+        }
+      );
+    });
+    //BE CAREFUL: no error callback and no success callback params used for db.transaction
+    //BUT for tx.executeSql, success callback and err calLback params are used
   });
   return promise;
 };
