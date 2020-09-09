@@ -3,6 +3,9 @@ export const placesActionTypes = {
   DELETE_PLACE: 'DELETE_PLACE',
 };
 
-export const addPlace = (title) => {
-  return { type: placesActionTypes.ADD_PLACE, placeData: { title: title } };
+export const addPlace = (title, image) => {
+  return {
+    type: placesActionTypes.ADD_PLACE,
+    placeData: { title: title, imageUri: image },
+  };
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Button, Image, StyleSheet, Alert } from 'react-native';
 import Colors from '../constants/Colors';
 import * as ImagePicker from 'expo-image-picker';
@@ -6,6 +6,7 @@ import * as Permissions from 'expo-permissions';
 
 const ImgPicker = (props) => {
   //const {} = props;
+  const [pickedImage, setPickedImage] = useState();
 
   //this check required for iOS devices, because for iOS, "Expo" app asks permission when you call "askAsync"
   //So, you have to uninstall Expo first from your simulator, and then you have install again to clear permissions
@@ -33,14 +34,19 @@ const ImgPicker = (props) => {
       aspect: [16, 9],
       quality: 0.5,
     });
-    console.log(image);
+    //console.log(image);
+    setPickedImage(image);
+    props.onImageTaken(image.uri);
   };
 
   return (
     <View style={styles.imagePicker}>
       <View style={styles.imagePreview}>
-        <Text>No image picked yet!</Text>
-        <Image style={styles.image} />
+        {!pickedImage ? (
+          <Text>No image picked yet!</Text>
+        ) : (
+          <Image style={styles.image} source={{ uri: pickedImage.uri }} />
+        )}
       </View>
       <Button
         title="Take Image"
@@ -54,6 +60,7 @@ const ImgPicker = (props) => {
 const styles = StyleSheet.create({
   imagePicker: {
     alignItems: 'center',
+    marginBottom: 15,
   },
   imagePreview: {
     width: '100%',

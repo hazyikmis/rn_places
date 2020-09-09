@@ -19,7 +19,7 @@ const PlaceItem = (props) => {
   return (
     <TouchableComponent onPress={props.onSelect}>
       <View style={styles.placeItem}>
-        <Image source={{ uri: props.place.image }} style={styles.image} />
+        <Image source={{ uri: props.place.imageUri }} style={styles.image} />
         <View style={styles.infoContainer}>
           <Text style={styles.title}>{props.place.title}</Text>
           <Text style={styles.address}>{props.place.address}</Text>
