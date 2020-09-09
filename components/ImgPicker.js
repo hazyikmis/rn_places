@@ -34,6 +34,9 @@ const ImgPicker = (props) => {
       aspect: [16, 9],
       quality: 0.5,
     });
+    //ACTUALLY the returned image is saved in a temporary folder.
+    //We need to store it more professionally by using expo-file-system.
+    //And if user do nat want to save the place, it should not be saved, must remain in the temporary folder.
     //console.log(image);
     setPickedImage(image);
     props.onImageTaken(image.uri);
