@@ -49,3 +49,23 @@ export const insertPlace = (title, imageUri, address, lat, lng) => {
   });
   return promise;
 };
+
+export const fetchPlaces = () => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT * FROM places;`,
+        [],
+        (_, result) => {
+          resolve(result);
+        },
+        (_, err) => {
+          reject(err);
+        }
+      );
+    });
+    //BE CAREFUL: no error callback and no success callback params used for db.transaction
+    //BUT for tx.executeSql, success callback and err calLback params are used
+  });
+  return promise;
+};

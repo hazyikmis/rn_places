@@ -17,6 +17,15 @@ export default (state = initialState, action) => {
       return {
         places: state.places.concat(newPlace),
       };
+    case placesAction.placesActionTypes.FETCH_PLACES:
+      //return { places: action.places };
+      return {
+        places: action.places.map(
+          //only care about id, title and imageUri; and we need to convert id to string
+          //this is the reason we are mapping
+          (pl) => new Place(pl.id.toString(), pl.title, pl.imageUri)
+        ),
+      };
     default:
       return state;
   }

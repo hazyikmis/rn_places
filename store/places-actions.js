@@ -7,6 +7,7 @@ import * as db from '../helpers/db';
 export const placesActionTypes = {
   ADD_PLACE: 'ADD_PLACE',
   DELETE_PLACE: 'DELETE_PLACE',
+  FETCH_PLACES: 'FETCH_PLACES',
 };
 
 export const addPlace = (title, image) => {
@@ -53,4 +54,53 @@ export const addPlace = (title, image) => {
     placeData: { title: title, imageUri: image },
   };
 };
+*/
+
+export const loadPlaces = () => {
+  return async (dispatch) => {
+    try {
+      const dbResult = await db.fetchPlaces();
+      //console.log(dbResult);
+
+      dispatch({
+        type: placesActionTypes.FETCH_PLACES,
+        places: dbResult.rows._array,
+      });
+    } catch (err) {
+      throw err;
+    }
+  };
+};
+
+//example of (console.log) dbResult in addPlace (its an insert statement)
+/*
+WebSQLResultSet {
+  "insertId": 1,
+  "rows": WebSQLRows {
+    "_array": Array [],
+    "length": 0,
+  },
+  "rowsAffected": 1,
+}
+*/
+
+//example of (console.log) dbResult in loadPlaces (its a select statement)
+/*
+WebSQLResultSet {
+  "insertId": undefined,
+  "rows": WebSQLRows {
+    "_array": Array [
+      Object {
+        "address": "Dummy Address",
+        "id": 1,
+        "imageUri": "file:///data/user/0/host.exp.exponent/files/ExperienceData/%2540anonymous%252Frn_places-5c008cda-754b-4632-9d4b-c3c783932863/f182c5ad-468b-4ba4-862d-26bb14c65b4b.jpg",
+        "lat": 15.6,
+        "lng": 12.3,
+        "title": "A Test image 1",
+      },
+    ],
+    "length": 1,
+  },
+  "rowsAffected": 0,
+}
 */
