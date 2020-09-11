@@ -22,7 +22,8 @@ const LocationPicker = (props) => {
   //IMPORTANT!: IN ORDER TO ACCESS "route" YOU NEED TO PASS IT FROM A SCREEN (TOP LEVEL COMPONENT ON THE NAVIGATOR) TO THIS COMPONENT
   //THIS IS SAME FOR THE "navigation"
   //PLEASE CHECK THE NewPlaceScreen.js: <LocationPicker navigation={props.navigation} route={props.route} />
-  const mapPickedLocation = props.route.params['pickedLocation'];
+  //const mapPickedLocation = props.route.params['pickedLocation'];
+  const mapPickedLocation = props.route?.params?.pickedLocation;
 
   useEffect(() => {
     if (mapPickedLocation) {

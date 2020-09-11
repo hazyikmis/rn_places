@@ -12,7 +12,10 @@ export default (state = initialState, action) => {
         //new Date().toString(), //previously used as Id
         action.placeData.id.toString(), //after using SQLite DB as a persistent storage
         action.placeData.title,
-        action.placeData.imageUri
+        action.placeData.imageUri,
+        action.placeData.address,
+        action.placeData.coords.lat,
+        action.placeData.coords.lng
       );
       return {
         places: state.places.concat(newPlace),
@@ -23,7 +26,16 @@ export default (state = initialState, action) => {
         places: action.places.map(
           //only care about id, title and imageUri; and we need to convert id to string
           //this is the reason we are mapping
-          (pl) => new Place(pl.id.toString(), pl.title, pl.imageUri)
+          //(pl) => new Place(pl.id.toString(), pl.title, pl.imageUri)
+          (pl) =>
+            new Place(
+              pl.id.toString(),
+              pl.title,
+              pl.imageUri,
+              pl.address,
+              pl.lat,
+              pl.lng
+            )
         ),
       };
     default:

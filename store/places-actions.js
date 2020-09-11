@@ -1,6 +1,8 @@
 import * as FileSystem from 'expo-file-system';
 import * as db from '../helpers/db';
 
+import ENV from '../env';
+
 //import {insertPlace} from '../helpers/db';
 //insertPlace();
 
@@ -10,8 +12,26 @@ export const placesActionTypes = {
   FETCH_PLACES: 'FETCH_PLACES',
 };
 
-export const addPlace = (title, image) => {
+//export const addPlace = (title, image) => {
+export const addPlace = (title, image, location) => {
   return async (dispatch) => {
+    //reverse geocoding - start
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${ENV.googleApiKey}`
+    );
+
+    if (!response.ok) {
+      throw new Error('Something went wrong!');
+    }
+    const resData = await response.json();
+    //console.log(resData);  //huge object!
+    if (!resData.results) {
+      throw new Error('Something went wrong!');
+    }
+
+    const address = resData.results[0].formatted_address;
+    //reverse geocoding - finish
+
     const fileName = image.split('/').pop(); //splits all folder names and pops out the last part which is a file name.
     const newPath = FileSystem.documentDirectory + fileName;
 
@@ -26,11 +46,11 @@ export const addPlace = (title, image) => {
       const dbResult = await db.insertPlace(
         title,
         newPath,
-        'Dummy Address',
-        15.6,
-        12.3
+        address,
+        location.lat,
+        location.lng
       );
-      console.log(dbResult);
+      //console.log(dbResult);
 
       //in the dispatched action below, we are going to change the temp location of the image file and store place data into SQLite db by executing the code above
       //this is the reason why we have put the code above (why not in reducer? because of this, it must be done before dispatching action!)
@@ -38,7 +58,13 @@ export const addPlace = (title, image) => {
         type: placesActionTypes.ADD_PLACE,
         //placeData: { title: title, imageUri: image },
         //placeData: { title: title, imageUri: newPath },
-        placeData: { id: dbResult.insertId, title: title, imageUri: newPath }, //after inserting SQLite db, we can send id
+        placeData: {
+          id: dbResult.insertId,
+          title: title,
+          imageUri: newPath,
+          address: address,
+          coords: { lat: location.lat, lng: location.lng },
+        }, //after inserting SQLite db, we can send id
       });
     } catch (err) {
       console.log(err);

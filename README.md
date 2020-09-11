@@ -27,3 +27,15 @@ https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,N
 &markers=color:red%7Clabel:C%7C40.718217,-73.998284
 &key=YOUR_API_KEY
 ```
+
+# Google: Geocoding API
+
+https://developers.google.com/maps/documentation/geocoding/overview
+
+> What is geocoding?
+
+Geocoding is the process of converting addresses (like "1600 Amphitheatre Parkway, Mountain View, CA") into geographic coordinates (like latitude 37.423021 and longitude -122.083739), which you can use to place markers on a map, or position the map.
+
+> Reverse geocoding (address lookup)
+
+The term geocoding generally refers to translating a human-readable address into a location on a map. The process of doing the opposite, translating a location on the map into a human-readable address, is known as reverse geocoding.
