@@ -6,7 +6,7 @@ import * as Permissions from 'expo-permissions';
 
 const ImgPicker = (props) => {
   //const {} = props;
-  const [pickedImage, setPickedImage] = useState();
+  const [pickedImage, setPickedImage] = useState(null);
 
   //this check required for iOS devices, because for iOS, "Expo" app asks permission when you call "askAsync"
   //So, you have to uninstall Expo first from your simulator, and then you have install again to clear permissions
@@ -38,7 +38,10 @@ const ImgPicker = (props) => {
     //We need to store it more professionally by using expo-file-system.
     //And if user do nat want to save the place, it should not be saved, must remain in the temporary folder.
     //console.log(image);
-    setPickedImage(image);
+
+    if (!image?.cancelled) {
+      setPickedImage(image);
+    }
     props.onImageTaken(image.uri);
   };
 
