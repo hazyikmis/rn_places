@@ -4,11 +4,13 @@ The steps defined under "Configuration" section might be required in the MapView
 (https://docs.expo.io/versions/v38.0.0/sdk/map-view/)
 */
 
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 
 const MapScreen = (props) => {
+  const [selectedLocation, setSelectedLocation] = useState();
+
   const mapRegion = {
     latitude: 37.78,
     longitude: -122.43,
@@ -17,12 +19,53 @@ const MapScreen = (props) => {
     longitudeDelta: 0.0421,
   };
 
-  //"style" is important! If there is no styling on MapView, you can not see the map!
+  const selectLocationHandler = (event) => {
+    //console.log(event);
+    setSelectedLocation({
+      lat: event.nativeEvent.coordinate.latitude,
+      lng: event.nativeEvent.coordinate.longitude,
+    });
+  };
 
-  return <MapView style={styles.map} region={mapRegion} />;
+  const savePickedLocationHandler = useCallback(() => {
+    //console.log('savePickedLocationHandler called!');
+    //props.navigation.goBack();
+    if (!selectedLocation) {
+      //could show an alert!
+      //if no location picked then app stays still on the MapScreen
+      return;
+    }
+    props.navigation.navigate('NewPlace', { pickedLocation: selectedLocation });
+  }, [selectedLocation]);
+
+  useEffect(() => {
+    props.navigation.setParams({ saveLocation: savePickedLocationHandler });
+  }, [savePickedLocationHandler]);
+
+  let markerCoordinates;
+
+  if (selectedLocation) {
+    markerCoordinates = {
+      latitude: selectedLocation.lat,
+      longitude: selectedLocation.lng,
+    };
+  }
+
+  return (
+    <MapView
+      style={styles.map}
+      region={mapRegion}
+      onPress={selectLocationHandler}
+    >
+      {markerCoordinates ? (
+        <Marker title="Picked Location" coordinate={markerCoordinates} />
+      ) : null}
+    </MapView>
+  );
 };
 
 const styles = StyleSheet.create({
+  //"style" is important! If there is no styling on MapView, you can not see the map!
   map: {
     //flexDirection: 'row',
     flex: 1,
@@ -32,3 +75,55 @@ const styles = StyleSheet.create({
 });
 
 export default MapScreen;
+
+/*
+  return (
+    <MapView
+      style={styles.map}
+      region={mapRegion}
+      onPress={selectLocationHandler}
+    />
+  );
+*/
+
+// Here is the result of clicking/pressing on the map: "event" object
+/*
+SyntheticEvent {
+  "_dispatchInstances": FiberNode {
+    "tag": 5,
+    "key": null,
+    "type": "AIRMap",
+  },
+  "_dispatchListeners": [Function selectLocationHandler],
+  "_targetInst": FiberNode {
+    "tag": 5,
+    "key": null,
+    "type": "AIRMap",
+  },
+  "bubbles": undefined,
+  "cancelable": undefined,
+  "currentTarget": 395,
+  "defaultPrevented": undefined,
+  "dispatchConfig": Object {
+    "registrationName": "onPress",
+  },
+  "eventPhase": undefined,
+  "isDefaultPrevented": [Function functionThatReturnsFalse],
+  "isPropagationStopped": [Function functionThatReturnsFalse],
+  "isTrusted": undefined,
+  "nativeEvent": Object {
+    "action": "press",
+    "coordinate": Object {
+      "latitude": 37.7780428496713,
+      "longitude": -122.42600496858357,
+    },
+    "position": Object {
+      "x": 604,
+      "y": 974,
+    },
+  },
+  "target": undefined,
+  "timeStamp": 1599812790384,
+  "type": undefined,
+}
+*/

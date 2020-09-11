@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+//This screen called from 2 different places:
+//1.From MapScreen with params: props.navigation.navigate('NewPlace', { pickedLocation: selectedLocation });
+//2.From PlacesNavigator without params: onPress={() => navigation.navigate('NewPlace')}  //actually this is the + button on right top of PlacesListScreen.
+import React, { useState, useCallback } from 'react';
 import {
   ScrollView,
   View,
@@ -17,6 +20,7 @@ import LocationPicker from '../components/LocationPicker';
 const NewPlaceScreen = (props) => {
   const [titleValue, setTitleValue] = useState('');
   const [selectedImage, setSelectedImage] = useState();
+  const [selectedLocation, setSelectedLocation] = useState();
 
   const dispatch = useDispatch();
 
@@ -34,6 +38,16 @@ const NewPlaceScreen = (props) => {
     setSelectedImage(imagePath);
   };
 
+  // const locationPickedHandler = (location) => {
+  //   console.log(location);
+  // };
+
+  const locationPickedHandler = useCallback((location) => {
+    //console.log(location);
+    setSelectedLocation(location);
+  }, []);
+  //}, [setSelectedLocation]);
+
   return (
     <ScrollView>
       <View style={styles.form}>
@@ -44,7 +58,11 @@ const NewPlaceScreen = (props) => {
           value={titleValue}
         />
         <ImgPicker onImageTaken={imageTakenHandler} />
-        <LocationPicker navigation={props.navigation} />
+        <LocationPicker
+          navigation={props.navigation}
+          route={props.route}
+          onLocationPicked={locationPickedHandler}
+        />
         <Button
           title="Save Place"
           color={Colors.primaryColor}

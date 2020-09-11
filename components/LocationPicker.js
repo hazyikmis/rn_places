@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -14,9 +14,23 @@ import Colors from '../constants/Colors';
 import MapPreview from './MapPreview';
 
 const LocationPicker = (props) => {
-  //const {} = props;
+  const { onLocationPicked } = props;
   const [pickedLocation, setPickedLocation] = useState();
   const [isFetching, setIsFetching] = useState(false);
+
+  //console.log(props);
+  //IMPORTANT!: IN ORDER TO ACCESS "route" YOU NEED TO PASS IT FROM A SCREEN (TOP LEVEL COMPONENT ON THE NAVIGATOR) TO THIS COMPONENT
+  //THIS IS SAME FOR THE "navigation"
+  //PLEASE CHECK THE NewPlaceScreen.js: <LocationPicker navigation={props.navigation} route={props.route} />
+  const mapPickedLocation = props.route.params['pickedLocation'];
+
+  useEffect(() => {
+    if (mapPickedLocation) {
+      setPickedLocation(mapPickedLocation);
+      //props.onLocationPicked(mapPickedLocation);
+      onLocationPicked(mapPickedLocation);
+    }
+  }, [mapPickedLocation, onLocationPicked]);
 
   //this check required for iOS devices, because for iOS, "Expo" app asks permission when you call "askAsync"
   //So, you have to uninstall Expo first from your simulator, and then you have install again to clear permissions
@@ -46,8 +60,15 @@ const LocationPicker = (props) => {
         timeout: 5000,
         accuracy: Location.Accuracy.High, //if accuracy did not set to "High", it does not work in android emulator
       });
-      console.log(location);
+      //console.log(location);
       setPickedLocation({
+        lat: location.coords.latitude,
+        lng: location.coords.longitude,
+      });
+
+      //props.onLocationPicked(pickedLocation); //might not be set yet!
+      //props.onLocationPicked({
+      onLocationPicked({
         lat: location.coords.latitude,
         lng: location.coords.longitude,
       });
@@ -68,6 +89,10 @@ const LocationPicker = (props) => {
   const pickOnMapHandler = () => {
     //the navigation prop is only available on components which are directly loaded as screens which the location picker of course isn't.
     //because of that we are sending "navigation" as props from NewPlaceScreen to here!
+
+    //IMPORTANT!: IN ORDER TO ACCESS "route" YOU NEED TO PASS IT FROM A SCREEN (TOP LEVEL COMPONENT ON THE NAVIGATOR) TO THIS COMPONENT
+    //THIS IS SAME FOR THE "navigation"
+    //PLEASE CHECK THE NewPlaceScreen.js: <LocationPicker navigation={props.navigation} route={props.route} />
     props.navigation.navigate('Map');
   };
 

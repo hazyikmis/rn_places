@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { Ionicons } from '@expo/vector-icons';
@@ -41,6 +41,40 @@ const placesListScreenOptions = ({ navigation, route }) => ({
   ),
 });
 
+const mapScreenOptions = ({ navigation, route }) => ({
+  headerTitle: 'Pick a location',
+  //headerLeft: () => drawerMenu(navigation),
+  /*
+  headerRight: () => (
+    <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+      <Item
+        title="Save"
+        iconName={Platform.OS === 'android' ? 'md-save' : 'ios-save'}
+        onPress={() => navigation.navigate('...')}
+      />
+    </HeaderButtons>
+  ),
+  */
+  headerRight: () => (
+    <TouchableOpacity
+      style={styles.headerSaveButton}
+      onPress={() => route.params['saveLocation']()}
+    >
+      <Text style={styles.headerSaveButtonText}>Save</Text>
+    </TouchableOpacity>
+  ),
+  //WHY THE CODE BELOW DOES NOT WORK WHILE THE ABOVE WORKS ???
+  // headerRight: () => {
+  //   console.log(route);  //params: undefined!!!
+  //   const saveFn = route.params['saveLocation'];
+  //   return (
+  //     <TouchableOpacity style={styles.headerSaveButton} onPress={saveFn}>
+  //       <Text style={styles.headerSaveButtonText}>Save</Text>
+  //     </TouchableOpacity>
+  //   );
+  // },
+});
+
 const StackPlaces = createStackNavigator();
 
 const PlacesNavigator = () => {
@@ -62,9 +96,23 @@ const PlacesNavigator = () => {
         component={NewPlaceScreen}
         options={{ headerTitle: 'New Place' }}
       />
-      <StackPlaces.Screen name="Map" component={MapScreen} />
+      <StackPlaces.Screen
+        name="Map"
+        component={MapScreen}
+        options={mapScreenOptions}
+      />
     </StackPlaces.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  headerSaveButton: {
+    marginHorizontal: 20,
+  },
+  headerSaveButtonText: {
+    fontSize: 16,
+    color: Platform.OS === 'android' ? 'white' : Colors.primaryColor,
+  },
+});
 
 export default PlacesNavigator;
