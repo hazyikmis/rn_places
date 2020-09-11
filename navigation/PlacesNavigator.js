@@ -42,7 +42,12 @@ const placesListScreenOptions = ({ navigation, route }) => ({
 });
 
 const mapScreenOptions = ({ navigation, route }) => ({
-  headerTitle: 'Pick a location',
+  //headerTitle: 'Pick a location',
+  //headerTitle: route.params?.readOnly ? '...' : 'Pick a location',
+  headerTitle: route.params?.readOnly
+    ? route.params?.initialAddress
+    : 'Pick a location',
+
   //headerLeft: () => drawerMenu(navigation),
   /*
   headerRight: () => (
@@ -55,14 +60,15 @@ const mapScreenOptions = ({ navigation, route }) => ({
     </HeaderButtons>
   ),
   */
-  headerRight: () => (
-    <TouchableOpacity
-      style={styles.headerSaveButton}
-      onPress={() => route.params['saveLocation']()}
-    >
-      <Text style={styles.headerSaveButtonText}>Save</Text>
-    </TouchableOpacity>
-  ),
+  headerRight: () =>
+    route.params?.readOnly ? null : (
+      <TouchableOpacity
+        style={styles.headerSaveButton}
+        onPress={() => route.params['saveLocation']()}
+      >
+        <Text style={styles.headerSaveButtonText}>Save</Text>
+      </TouchableOpacity>
+    ),
   //WHY THE CODE BELOW DOES NOT WORK WHILE THE ABOVE WORKS ???
   // headerRight: () => {
   //   console.log(route);  //params: undefined!!!

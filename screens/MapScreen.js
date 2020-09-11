@@ -9,11 +9,16 @@ import { StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 const MapScreen = (props) => {
-  const [selectedLocation, setSelectedLocation] = useState();
+  const initialLocation = props.route?.params?.initialLocation;
+  const readOnly = props.route?.params?.readOnly;
 
+  // const [selectedLocation, setSelectedLocation] = useState();
+  const [selectedLocation, setSelectedLocation] = useState(initialLocation);
+
+  //helps us to focus on that area!
   const mapRegion = {
-    latitude: 37.78,
-    longitude: -122.43,
+    latitude: initialLocation ? initialLocation.lat : 37.78,
+    longitude: initialLocation ? initialLocation.lng : -122.43,
     //zoom factors, how much space you can see around the center point above
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
@@ -21,6 +26,9 @@ const MapScreen = (props) => {
 
   const selectLocationHandler = (event) => {
     //console.log(event);
+    if (readOnly) {
+      return; //if readOnly, (opened from PlaceDetailsScree.js) do not continue, do not pick a location!!!
+    }
     setSelectedLocation({
       lat: event.nativeEvent.coordinate.latitude,
       lng: event.nativeEvent.coordinate.longitude,

@@ -1,5 +1,5 @@
 //This screen called from 2 different places:
-//1.From MapScreen with params: props.navigation.navigate('NewPlace', { pickedLocation: selectedLocation });
+//1.From MapScreen with params (in order to go back): props.navigation.navigate('NewPlace', { pickedLocation: selectedLocation });
 //2.From PlacesNavigator without params: onPress={() => navigation.navigate('NewPlace')}  //actually this is the + button on right top of PlacesListScreen.
 import React, { useState, useCallback } from 'react';
 import {
