@@ -62,20 +62,40 @@ const LocationPicker = (props) => {
     setIsFetching(false);
   };
 
+  //this event handler called in 2 ways:
+  //1.pressing the "Pick on Map" button
+  //2.clicking the MapPreview component
+  const pickOnMapHandler = () => {
+    //the navigation prop is only available on components which are directly loaded as screens which the location picker of course isn't.
+    //because of that we are sending "navigation" as props from NewPlaceScreen to here!
+    props.navigation.navigate('Map');
+  };
+
   return (
     <View style={styles.locationPicker}>
-      <MapPreview style={styles.mapPreview} location={pickedLocation}>
+      <MapPreview
+        style={styles.mapPreview}
+        location={pickedLocation}
+        onPressOnTheMap={pickOnMapHandler}
+      >
         {isFetching ? (
           <ActivityIndicator size="large" color={Colors.primaryColor} />
         ) : (
           <Text>No location chosen yet!</Text>
         )}
       </MapPreview>
-      <Button
-        title="Get User Location"
-        color={Colors.primaryColor}
-        onPress={getLocationHandler}
-      />
+      <View style={styles.actions}>
+        <Button
+          title="Get User Location"
+          color={Colors.primaryColor}
+          onPress={getLocationHandler}
+        />
+        <Button
+          title="Pick on Map"
+          color={Colors.primaryColor}
+          onPress={pickOnMapHandler}
+        />
+      </View>
     </View>
   );
 };
@@ -90,6 +110,11 @@ const styles = StyleSheet.create({
     height: 150,
     borderColor: '#ccc',
     borderWidth: 1,
+  },
+  actions: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
   },
 });
 

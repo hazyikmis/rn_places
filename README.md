@@ -8,7 +8,12 @@ expo install expo-sqlite
 
 expo install expo-location
 
-npm install react-native-dotenv
+npm install react-native-dotenv //SEEMS NO NEED !!! (check r_shop_app README.md)
+
+expo install react-native-maps
+
+The steps defined under "Configuration" section might be required in the MapView Expo API Reference
+(https://docs.expo.io/versions/v38.0.0/sdk/map-view/)
 
 # Google: Maps Static API
 

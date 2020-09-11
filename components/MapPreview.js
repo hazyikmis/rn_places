@@ -1,5 +1,12 @@
 import React from 'react';
-import { Image, StyleSheet, View, ActivityIndicator, Text } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 
 //import { GOOGLE_API_KEY } from '@env';
 import ENV from '../env';
@@ -14,7 +21,10 @@ const MapPreview = (props) => {
   }
 
   return (
-    <View style={{ ...styles.mapPreview, ...props.style }}>
+    <TouchableOpacity
+      onPress={props.onPressOnTheMap}
+      style={{ ...styles.mapPreview, ...props.style }}
+    >
       {
         //the check below could be done with imagePreviewUrl also
         props.location ? (
@@ -23,7 +33,7 @@ const MapPreview = (props) => {
           props.children
         )
       }
-    </View>
+    </TouchableOpacity>
   );
 };
 
