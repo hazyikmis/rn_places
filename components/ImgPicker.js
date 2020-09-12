@@ -12,7 +12,10 @@ const ImgPicker = (props) => {
   //So, you have to uninstall Expo first from your simulator, and then you have install again to clear permissions
   const verifyPermissions = async () => {
     //if user granted access to camera before in the history, this askAsync call returns "status: granted"
-    const result = await Permissions.askAsync(Permissions.CAMERA);
+    const result = await Permissions.askAsync(
+      Permissions.CAMERA,
+      Permissions.CAMERA_ROLL
+    );
     if (result.status !== 'granted') {
       Alert.alert(
         'Insufficient permissions!',

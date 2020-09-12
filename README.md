@@ -1,3 +1,25 @@
+> In this app you can find:
+
+- React Navigation 5 usage (sending & receiving parameters between screens & components & navigator)
+- Camera usage
+- Temp storage usage
+- SQLite usage
+- Google Maps usage
+- ENV vars usage (& keeping them secret)
+
+# Screenshots
+
+<div style="display: flex;">
+<img src="./zz_screenshots/Screenshot_1599889971.png" width="200" height="400" />
+<img src="./zz_screenshots/Screenshot_1599890059.png" width="200" height="400" />
+<img src="./zz_screenshots/Screenshot_1599890051.png" width="200" height="400" />
+<img src="./zz_screenshots/Screenshot_1599890076.png" width="200" height="400" />
+<img src="./zz_screenshots/Screenshot_1599890081.png" width="200" height="400" />
+<img src="./zz_screenshots/Screenshot_1599890095.png" width="200" height="400" />
+</div>
+
+# Some important installations
+
 expo install expo-image-picker
 
 expo install expo-permissions
