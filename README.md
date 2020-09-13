@@ -97,3 +97,26 @@ Publish complete
 
 � Manifest: https://exp.host/@hazyikmis/great-places/index.exp?sdkVersion=38.0.0 Learn more: https://expo.fyi/manifest-url
 ⚙️ Project page: https://expo.io/@hazyikmis/great-places Learn more: https://expo.fyi/project-page
+
+# Building Standalone Apps
+
+https://docs.expo.io/distribution/building-standalone-apps/
+
+```
+expo build:android -t app-bundle
+expo fetch:android:keystore
+```
+
+The "aab" bundle created by expo: https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40hazyikmis/great-places-d671ead12ce84844871bb0eacb1a9a4c-signed.aab
+
+> Keystroke credentials copied to env.js
+
+"expo build:android -t app-bundle" command produces app bundles. An Android App Bundle is a publishing format that includes all your app’s compiled code and resources, and defers APK generation and signing to Google Play. This bundle is an aab file, and it is not installable directly to device or emulator. For more info please check: https://developer.android.com/guide/app-bundle
+
+In order to produce installable "apk" files you need to use "bundletool". For more info: https://developer.android.com/studio/command-line/bundletool#device_specific_apks
+
+```
+expo build:android -t apk
+```
+
+The "apk" directly installable & testable on your android device created by expo: https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40hazyikmis/great-places-70fe0943458c416fabf93dd2c0148f1e-signed.apk
