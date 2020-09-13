@@ -61,3 +61,39 @@ Geocoding is the process of converting addresses (like "1600 Amphitheatre Parkwa
 > Reverse geocoding (address lookup)
 
 The term geocoding generally refers to translating a human-readable address into a location on a map. The process of doing the opposite, translating a location on the map into a human-readable address, is known as reverse geocoding.
+
+# Publishing to Expo
+
+> to publish:
+
+```
+expo publish
+```
+
+- created account (on the fly) : hazy.3@gm x...6.hn
+
+- Project page: https://expo.io/@hazyikmis/great-places
+
+> output of the publishing:
+
+Bundle Size
+┌ index.ios.js 1.53 MB
+├ index.android.js 1.54 MB
+├ index.ios.js.map 5.12 MB
+└ index.android.js.map 5.15 MB
+
+Learn more about JavaScript bundle sizes: https://expo.fyi/javascript-bundle-sizes
+
+Analyzing assets
+Saving assets
+No assets changed, skipped.
+
+Processing asset bundle patterns:
+
+- D:\hll\udemy courses\React Native Tutorial for Beginners - Crash Course 2020\react-native\rn_places\*\*\*
+
+Uploading JavaScript bundles
+Publish complete
+
+� Manifest: https://exp.host/@hazyikmis/great-places/index.exp?sdkVersion=38.0.0 Learn more: https://expo.fyi/manifest-url
+⚙️ Project page: https://expo.io/@hazyikmis/great-places Learn more: https://expo.fyi/project-page
