@@ -98,7 +98,7 @@ Publish complete
 � Manifest: https://exp.host/@hazyikmis/great-places/index.exp?sdkVersion=38.0.0 Learn more: https://expo.fyi/manifest-url
 ⚙️ Project page: https://expo.io/@hazyikmis/great-places Learn more: https://expo.fyi/project-page
 
-# Building Standalone Apps
+# Building Standalone Apps (using Expo / For managed apps)
 
 https://docs.expo.io/distribution/building-standalone-apps/
 
